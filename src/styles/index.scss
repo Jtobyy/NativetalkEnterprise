@@ -1,0 +1,192 @@
+$gen-color:  #3EBF0F;
+$gen-bg-sec-color:  #FAFAFA;
+$faded-green: #E6F7E0;
+$faded-text: #C5C5C5;
+$gen-border-line: 0.5px solid #3EBF0F;
+$gen-blue-bg: #115BC7;
+
+
+@use 'spacings';
+
+body {
+    font-family: 'encode sans' !important;
+}
+.carousel {
+    transition: all .3s;
+}
+.carousel:hover {
+    transform: scale(1.01);
+    transition: all .3s;
+}
+.green-text {
+    color: $gen-color;
+}
+.gen-bg-color {
+    background-color: $faded-green !important; //#F2FBEF
+}
+.gen-bg-sec-color {
+    background-color: $gen-bg-sec-color !important;
+}
+.green-bg-color {
+    background-color: $gen-color !important;
+}
+.blue-bg-color {
+    background-color: $gen-blue-bg !important;
+}
+.green-btn {
+    background-color: $gen-color !important;
+    border: 0px;
+    transition: all .2s !important;
+}
+.green-btn:hover {
+    transform: scale(.97);
+    transition: all .2s ;
+}
+.green-btn:active {
+    transform: scale(1);
+}
+.gen-border-bottom {
+    border-bottom: 0.5px solid rgb(199, 237, 185);
+}
+.faded-text {
+    color: #C5C5C5 !important;
+}
+.faded-green-bg {
+    background-color: $faded-green !important;
+}
+.accordion-button {
+    font-weight: 700;
+    color: black !important;
+    background-color: $faded-green !important;
+  }
+.no-scroll {
+    height: 100%; 
+    overflow: hidden;
+}
+
+
+// Landing component
+.feature-card {
+    background-color: $faded-green;
+    padding: 40px 10px 30px 30px;
+    text-align: left;
+    border-radius: 10px;
+    color: #103B00;
+    line-height: 30px;
+    height: 260px;
+    transition: all .3s;
+    cursor: default;
+}
+.feature-card:hover {
+    transform: scale(1.03);
+    transition: all .3s;
+}
+.feature-card h4{ 
+    font-weight: 700;
+}
+.testimonial {
+    margin:auto;
+    border: 1px solid #3EBF0F;
+    width: 60vw;
+    border-radius: 20px;
+}
+
+
+// Footer component
+.footer-line{
+    width: 35%;
+}
+.media-icon{
+    width: 13px;
+    transition: all .3s;
+}
+.media-icon:hover { 
+    transform: scale(1.2);
+    cursor: pointer;
+    transition: all .3s;
+}
+        
+
+// SelectPlan component
+.free-plan,
+.standard-plan {
+    transition: all .6s;
+}
+.free-plan:hover,
+.standard-plan:hover {
+    transition: all .3s;
+    z-index: 2;    
+    transform: scale(1.1);
+}
+.standard-plan-modal:hover {
+    transform: scale(1);
+}
+.free-plan ul,
+.standard-plan ul {
+    list-style-type: none;
+}
+.free-plan ul li span {
+    position: relative;    
+    top: -10px;
+    left: -18px;
+}
+.free-plan ul li::before {
+    content: url('./images/checkbox-green.png');
+    width: 5px !important;
+    position: relative;
+    left: -20px;
+    padding: 0px !important;
+    margin: 0px !important;
+}
+.standard-plan ul li span {
+    position: relative;    
+    top: -10px;
+    left: -18px;
+}
+.standard-plan ul li::before {
+    content: url('./images/checkbox-blue.png');
+    width: 5px !important;
+    position: relative;
+    left: -20px;
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+
+// Steps component
+.steps-container {
+    border: solid 5px $faded-text;    
+    //border-image: radial-gradient(45deg, $gen-color, $faded-text) 1;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    z-index: 2;
+}
+.step-border {
+    top: -5px;
+    right: -5px;
+}
+
+// Modals 
+.custom-modal {
+    top: 150px;
+    width: fit-content !important;
+    height: 300px;
+    box-shadow: 0px 0px 100vw 100vw rgba(0,0,0,.6);
+}
+.custom-modal-sec {
+    height: fit-content;
+}
+.custom-modal:hover {
+    transform: scale(1) !important;
+}
+.control-btn {
+    transition: all .3s;
+    cursor: pointer;
+}
+.control-btn:hover {
+    transform: scale(.95);
+}    
+.control-btn:active {
+    transform: scale(1);
+}    
