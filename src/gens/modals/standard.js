@@ -29,11 +29,13 @@ export default function StandardModal() {
         return <Navigate to='/ReserveNumber'/>
 
     return (
-        <Card className="mx-auto" style={{'width': 'fit-content'}}>
+        <Card className="mx-auto standard-card">
             <Card.Header as='h4' className='p-3 fw-700 blue-bg-color text-white position-relative'>
                 <img src={fadedBlueCircle} className="position-absolute top-0" 
                 width='30px' style={{'left': '30px'}} alt=""/>
-                    Choose no of users
+                    Choose no of users <span className='position-absolute end-0'
+                    style={{'margin-right': '20px', 'cursor': 'pointer', 'color': 'rgba(255, 255, 255, .5)'}} id='close-standard'
+                    onClick={() => {window.location.reload()}}>X</span>
                 <img src={fadedBluePolygon} className="position-absolute bottom-0 
                 mb--2px start-0"
                 width='25px' alt=""/>

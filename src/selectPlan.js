@@ -111,8 +111,8 @@ export default function SelectPlan() {
                     window.scrollTo(0, 0);
                     dispatch(setWantedFalse())
                     $('body').addClass('no-scroll');
-                    return <div className="position-absolute z-5 mx-auto b-0 br-15px z-6 custom-modal custom-modal-sec 
-                    mx-3" style={{'top': '20vh', 'left': '30vw'}} >
+                    return <div className="position-absolute z-5 mx-auto b-0 br-15px z-6 custom-modal custom-modal-sec
+                    mx-3" style={{'top': '20vh', 'left': '33vw'}} >
                         <StandardModal /></div>
                 }
             })()}
