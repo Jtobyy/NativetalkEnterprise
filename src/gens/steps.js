@@ -2,7 +2,9 @@ import step1Border from '../styles/images/step-1-border.png';
 import step2Border from '../styles/images/step-2-border.png';
 import step3Border from '../styles/images/step-3-border.png';
 
-export default function Steps(props) {    
+
+// This component receives two objects as props. num for numerator and den for denominator.     
+export default function Steps(props) {
     return (
         <div className='steps-container p-2 fw-800 faded-text position-relative'>
             <span className="green-text">{props.num}</span>

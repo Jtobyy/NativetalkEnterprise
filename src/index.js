@@ -13,10 +13,10 @@ import { PersistGate } from 'redux-persist/integration/react';
 import Loading from './gens/loading';
 import './styles/index.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { SuccessfulOtpVerificationModal } from './gens/modals/successful';
+// import { SuccessfulOtpVerificationModal } from './gens/modals/successful';
 import { loadProgressBar } from 'axios-progress-bar';
 import 'axios-progress-bar/dist/nprogress.css';
-import VerifyOtp from './verifyOtp';
+// import VerifyOtp from './verifyOtp';
 
 loadProgressBar()
 
@@ -32,8 +32,8 @@ class App extends React.Component {
             <Route exact path='/ConfirmOrder' element={<ConfirmOrder />} />
             <Route exact path='/ReserveNumber' element={<ReserveNumber />} />
             <Route exact path='/SelectPlan' element={<SelectPlan />} />
-            <Route exact path='/VerifyOtp' element={<VerifyOtp />} />
-            <Route exact path='/otpverified' element={<SuccessfulOtpVerificationModal />} />
+            {/* <Route exact path='/VerifyOtp' element={<VerifyOtp />} /> */}
+            {/* <Route exact path='/otpverified' element={<SuccessfulOtpVerificationModal />} /> */}
           </Routes>
           <Footer />
         </div>

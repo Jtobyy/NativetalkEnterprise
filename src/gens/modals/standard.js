@@ -4,12 +4,13 @@ import Button from 'react-bootstrap/Button';
 
 // importing custom components
 import { decrement, increment, setWantedTrue, 
-    selectAmount, selectPrice, selectWanted } from '../../features/usersAmountSlice';
+    selectAmount, selectPrice } from '../../features/usersAmountSlice';
 
 // other components
 import { useSelector, useDispatch } from 'react-redux';
 import NumberFormat from 'react-number-format';
-import { Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import $ from 'jquery';
 
 // importing image files
 import fadedBlueCircle from '../../styles/images/faded-blue-circle.png';
@@ -21,21 +22,24 @@ import subtractbtn from '../../styles/images/subtract.png';
 export default function StandardModal() {
     const usersAmount = useSelector(selectAmount);
     const price = useSelector(selectPrice);
-    const wanted = useSelector(selectWanted);
+    // const wanted = useSelector(selectWanted);
+
 
     const dispatch = useDispatch();
     //const [incrementAmount, setIncrementAmount] = useState('2');
-    if (wanted)
-        return <Navigate to='/ReserveNumber'/>
-
     return (
-        <Card className="mx-auto standard-card">
+        <Card className="standard-card ">
             <Card.Header as='h4' className='p-3 fw-700 blue-bg-color text-white position-relative'>
                 <img src={fadedBlueCircle} className="position-absolute top-0" 
                 width='30px' style={{'left': '30px'}} alt=""/>
                     Choose no of users <span className='position-absolute end-0'
-                    style={{'margin-right': '20px', 'cursor': 'pointer', 'color': 'rgba(255, 255, 255, .5)'}} id='close-standard'
-                    onClick={() => {window.location.reload()}}>X</span>
+                    style={{'margin-right': '20px'}} id='close-standard'
+                    onClick={() => { 
+                        $('#standard-modal-wrapper').addClass('hidden');
+                        $('body').removeClass('no-scroll');
+                    }}>
+                        <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+                    </span>
                 <img src={fadedBluePolygon} className="position-absolute bottom-0 
                 mb--2px start-0"
                 width='25px' alt=""/>
@@ -61,9 +65,14 @@ export default function StandardModal() {
                     <img className='control-btn' src={addbtn} width='45px'
                     onClick={() => dispatch(increment())}alt="" />
                 </div>
-                <Button className="mx-auto mt-5 text-white green-btn btn-success w-50" 
-                onClick={() => {window.sessionStorage.setItem('_processed', 'true');
-                dispatch(setWantedTrue())}}>Buy Now</Button>
+                <Link to='/ReserveNumber'>
+                    <Button className="mx-auto mt-5 text-white green-btn btn-success w-50" 
+                    onClick={() => {
+                        window.sessionStorage.setItem('_processed', 'true');
+                        $('body').removeClass('no-scroll');
+                        dispatch(setWantedTrue());
+                    }}>Buy Now</Button>
+                </Link>
             </Card.Footer>
         </Card>
     )

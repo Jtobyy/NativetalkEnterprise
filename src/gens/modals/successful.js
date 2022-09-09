@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import { Navigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import successIcon from '../../styles/images/success-icon.png';
+import $ from 'jquery';
 
 
 export function SuccessfulPaymentModal() {
@@ -44,9 +45,33 @@ export function SuccessfulOtpVerificationModal() {
                     <Button className="mx-auto mt-5 text-white green-btn btn-success"
                     onClick={() => {
                         window.sessionStorage.clear();
-                        window.location.href="https://definitive271.dashboard.nativetalk.com.ng";
-                    }}>Go to dashboard</Button>
+                        $('body').removeClass('no-scroll');
+                        window.location.href="https://nativetalk.io";
+                    }}>Go back to Homepage</Button>
                 </Modal.Footer>
             </Modal.Dialog>
+    )
+}
+
+export function SuccessfulRegistrationModal() {
+    return (
+        <Modal.Dialog  className='bg-light mx-auto custom-modal br-15px text-center py-5 position-relative' id="successregmodal">
+            <Modal.Header>
+            <span onClick={() => { 
+                        $('#successregmodal').addClass('hidden');
+                        $('body').removeClass('no-scroll');
+                        window.location.href = '/'
+                        // window.location.href = 'http://127.0.0.1:3000'
+                    }} className="position-absolute  end-0 me-4">
+            <button  type="button" className="btn-close btn-close " aria-label="Close"></button></span>    
+            </Modal.Header>
+            <Modal.Body>
+                <img src={successIcon} width="100px" alt=''/>
+                <Modal.Title><h3 className="fw-700 mt-30px">Registration Successful</h3></Modal.Title>
+            </Modal.Body>
+            {/* <Modal.Footer>
+                <Button className="mx-auto mt-5 text-white green-btn btn-success w-50">Homepage</Button>
+            </Modal.Footer> */}
+        </Modal.Dialog>
     )
 }

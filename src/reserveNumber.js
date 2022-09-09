@@ -43,14 +43,14 @@ export default function ReserveNumber() {
     return (
         <div className="text-center pt-5 position-relative">
             <ScrollToTopOnMount />
-            <div className="position-absolute mt-75px mr-100px end-0">
+            <div className="position-absolute mt-60px mr-7vw end-0">
                 <Steps num="2" den='3' />    
             </div>
             <section className="d-flex flex-column gen-bg-color align-items-center pb-200px">
                 <h1 className="fw-700 pt-1 pb-5 position-relative" style={{'top': '70px'}}>Reserve a number</h1>    
                 <p className="mt-4 text-muted">Pick a number from the dropdown below</p>
-                <Form style={{'width': '40vw'}} className="mb-2 ">
-                    <Form.Group className="w-26vw mt-5 mx-auto">
+                <Form style={{'width': '40vw'}} className="mb-2 reserve-num-form-wrapper">
+                    <Form.Group className="reserve-num-form mt-5 mx-auto">
                         <InputGroup className="mb-1">    
                             <InputGroup.Text className="bg-white" ><img src={call_icon} alt=""/></InputGroup.Text>
                             <Form.Select className="bg-white" style={{'borderLeft': '0px'}}
@@ -68,7 +68,10 @@ export default function ReserveNumber() {
                         </InputGroup>
                     </Form.Group>    
                     <Link to='/ConfirmOrder'>
-                        <Button onClick={()=>sessionStorage.setItem('number', (dids[selectedDid]).number)}  className="green-btn btn-success w-50 mt-5" type="submit">Continue</Button>
+                        <Button onClick={() => {
+                                sessionStorage.setItem('number', (dids[selectedDid]).number);
+                                sessionStorage.setItem('_processing', 'true');
+                            }}  className="green-btn btn-success mt-5" type="submit">Continue</Button>
                     </Link>
                 </Form>
             </section>

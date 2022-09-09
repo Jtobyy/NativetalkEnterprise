@@ -6,12 +6,12 @@ import Col from "react-bootstrap/Col";
 
 export default function Faq() {
     return (
-        <Container className="faqs pe-5">
+        <Container className="faqs pe-5 ">
             <Row >
-                <Col style={{'textAlign': 'left'}}>
-                    <h1 className="fw-700 w-75 lh-60px">Frequently Asked Questions</h1>
+                <Col className='text-md-start ' md={6} >
+                    <h1 className="fw-700 mb-5 lh-60px">Frequently Asked Questions</h1>
                 </Col> 
-                <Col>
+                <Col md={6}>
                     <Accordion className="lh-30px" defaultActiveKey="0" style={{'textAlign': 'left'}} flush>
                         <Accordion.Item eventKey="0" >
                             <Accordion.Header>

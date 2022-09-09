@@ -25,27 +25,26 @@ import { Navigate } from 'react-router-dom';
 
 
 export default function SelectPlan() {
-    const [show, setShow] = useState(false)
+    // const [show, setShow] = useState(false)
     const dispatch = useDispatch()
     const [selectfree, setSelectFree] = useState(false)
 
     if (selectfree) {
-            dispatch(setWantedFalse())  
+            dispatch(setWantedFalse())
             // dispatch(setProcessedTrue())
             window.sessionStorage.setItem('_processed', 'true')
             return <Navigate to='/ReserveNumber' />
         }
     return (
-        <div className="text-center pt-5 position-relative">
+        <div className="text-center pt-5 position-relative select-plan">
             <ScrollToTopOnMount />    
-            <div className="position-absolute mt-75px mr-100px end-0">
+            <div className="position-absolute mt-60px mr-7vw end-0">
                 <Steps num="1" den='3' />    
             </div>
-            <section className="d-flex flex-column gen-bg-color align-items-center">
+            <section className="d-flex flex-column gen-bg-color align-items-center ">
                 <h1 className="fw-700 pt-1 pb-5 position-relative" style={{'top': '70px'}}>Select A Plan</h1>    
-                <div className="d-flex position-relative" style={{'top': '60px'}}>
-                    <Card className="mx-4 lh-30px shadow br-15px h-100 pb-3 free-plan"
-                    style={{width: '28vw'}}>
+                <div className="d-flex flex-md-row flex-column position-relative " style={{'top': '60px'}}>
+                    <Card className="mx-4 lh-30px shadow br-15px h-100 pb-3 free-plan plan-card">
                         <Card.Header as='h4' className='p-3 fw-700 green-bg-color text-white position-relative'>
                             <img src={fadedGreenCircle} className="position-absolute top-0" 
                             width='30px' style={{'left': '30px'}} alt=""/>
@@ -74,8 +73,7 @@ export default function SelectPlan() {
                             <p className='text-muted mt-3' style={{'fontSize': 'small'}}>Free service valid for 1 year</p>
                         </Card.Body>
                     </Card>
-                    <Card className="mx-4 lh-30px shadow br-15px standard-plan"
-                    style={{width: '28vw'}}>
+                    <Card className="mx-4 lh-30px shadow br-15px standard-plan plan-card">
                         <Card.Header as='h4' className='p-3 fw-700 blue-bg-color text-white position-relative'>
                             <img src={fadedBlueCircle} className="position-absolute top-0" 
                             width='30px' style={{'left': '30px'}} alt=""/>
@@ -101,21 +99,31 @@ export default function SelectPlan() {
                                     <li><span>Special numbers</span></li>
                                 </ul>
                             </Card.Text>
-                            <Button className='green-btn w-75 mt-1' onClick={setShow}>Select</Button>
+                            <Button className='green-btn w-75 mt-1' onClick={() => {
+                                    $('#standard-modal-wrapper').removeClass('hidden');
+                                    if (document.documentElement.clientWidth <= 768) window.scrollTo(0, 180)
+                                    else window.scrollTo(0, 50)
+                                    $('body').addClass('no-scroll');
+                                }}>Select</Button>
                         </Card.Body>
                     </Card>
                 </div>
+                <div className="position-absolute b-0 br-15px custom-modal-sec
+                     hidden" id="standard-modal-wrapper" >
+                    <StandardModal />
+                </div>
             </section>
-            {(() => {
+            {/* {(() => {
                 if (show) {
                     window.scrollTo(0, 0);
                     dispatch(setWantedFalse())
                     $('body').addClass('no-scroll');
-                    return <div className="position-absolute z-5 mx-auto b-0 br-15px z-6 custom-modal custom-modal-sec
-                    mx-3" style={{'top': '20vh', 'left': '33vw'}} >
-                        <StandardModal /></div>
+                    return <div className="position-absolute b-0 br-15px custom-modal-sec
+                    mx-3"  >
+                        <StandardModal />
+                    </div>
                 }
-            })()}
+            })()} */}
             <div className="mt-300px mb-5">
                 <Faq />
                 {/*<Link to="/"><Button className='green-btn btn-success my-5'>See all FAQs</Button></Link>*/}

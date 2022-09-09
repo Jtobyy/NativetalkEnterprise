@@ -67,8 +67,29 @@
 .mr-40px {
     margin-right: 40px !important;    
 }
+.mr-50px {
+    margin-right: 50px !important;    
+}
+.mr-60px {
+    margin-right: 60px !important;    
+}
+.mr-70px {
+    margin-right: 70px !important;    
+}
 .mr-100px {
     margin-right: 100px !important;    
+}
+.mr-6vw {
+    margin-right: 6vw !important;
+}
+.mr-7vw {
+    margin-right: 7vw !important;
+}
+.mr-8vw {
+    margin-right: 8vw !important;    
+}
+.mr-8vw {
+    margin-right: 9vw !important;    
 }
 .mt--1px {
     margin-top: -1px !important;
@@ -97,8 +118,20 @@
 .mt--200px {
     margin-top: -200px !important;
 }
+.mt--230px {
+    margin-top: -230px !important;
+}
+.mt--240px {
+    margin-top: -240px !important;
+}
 .mt--250px {
     margin-top: -250px !important;
+}
+.mt--260px {
+    margin-top: -260px !important;
+}
+.mt--270px {
+    margin-top: -270px !important;
 }
 .mt--280px {
     margin-top: -280px !important;
@@ -119,13 +152,13 @@
     margin-top: 40px;
 }
 .mt-50px {
-    margin-top: 50px;
+    margin-top: 50px !important;
 }
 .mt-60px {
-    margin-top: 60px;
+    margin-top: 60px !important;
 }
 .mt-70px {
-    margin-top: 70px;
+    margin-top: 70px !important;
 }
 .mt-75px {
     margin-top: 75px;
@@ -232,6 +265,18 @@
 .pb-200px {
     padding-bottom: 200px !important;
 }
+.pb-280px {
+    padding-bottom: 280px !important;
+}
+.pb-290px {
+    padding-bottom: 290px !important;
+}
+p.pb-300px {
+    padding-bottom: 300px !important;
+}
+.pb-310px {
+    padding-bottom: 310px !important;
+}
 .pb-320px {
     padding-bottom: 320px !important;
 }
@@ -252,6 +297,9 @@
 }
 .pl-70px {
     padding-left: 70px !important;
+}
+.pl-4vw {
+    padding-left: 4vw !important;
 }
 .pl-5vw {
     padding-left: 5vw !important;
@@ -280,6 +328,9 @@
 .pr-5vw {
     padding-right: 5vw !important;
 }
+.pr-6vw {
+    padding-right: 6vw !important;
+}
 .pr-9vw {
     padding-right: 9vw !important;
 }
@@ -302,7 +353,7 @@
     padding-top: 100px !important;
 }
 .w-fit {
-    width: inherit;
+    width: 300px !important;
 }
 .w-26vw {
     width: 26vw;
@@ -349,23 +400,26 @@
 .fs-1rem {
     font-size: 1rem;
 }
+.fs-1p2rem {
+    font-size: 1.2rem !important;
+}
 .fs-1p5rem {
     font-size: 1.5rem;
 }
 .fs-1em {
-    font-size: 1em;
+    font-size: 1em !important;
 }
 .fs-1p2em {
-    font-size: 1.2em;
+    font-size: 1.2em !important;
 }
 .fs-1p3em {
-    font-size: 1.3em;
+    font-size: 1.3em !important;
 }
 .fs-1p5em {
-    font-size: 1.5em;
+    font-size: 1.5em !important;
 }
 .fs-2em {
-    font-size: 2em;
+    font-size: 2em !important;
 }
 .fs-3em {
     font-size: 3em !important;
@@ -418,11 +472,38 @@
 .l-35vw {
     left: 35vw;
 }
+.t-0px {
+    top: 0px !important;
+}
 .t-10px {
     top: 10px;
 }
+.t-10px {
+    top: 10px;
+}
+.t-20px {
+    top: 20px;
+}
+.t-30px {
+    top: 30px;
+}
+.t-40px {
+    top: 40px;
+}
+.t-50px {
+    top: 50px;
+}
+.t-7vh {
+    top: 7vh !important;
+}
+.t-10vh {
+    top: 10vh !important;
+}
 .t-10vw {
     top: 10vw !important;
+}
+.t-15vw {
+    top: 15vw !important;
 }
 .t-20vw {
     top: 20vw !important;
@@ -439,6 +520,8 @@
 .w50per-50px {
     width: calc(50% - 100px);
 }
+
+// z-indexes
 .z-5 {
     z-index: 5;
 }
@@ -448,3 +531,4 @@
 .z-10 {
     z-index: 10;
 }
+

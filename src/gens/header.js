@@ -10,8 +10,7 @@ export default function Header() {
             <Navbar bg='white' className='fixed-top px-5 py-3 gen-border-bottom fw-700'>
                 <Container>
                     <Navbar.Brand href='/'>
-                        <img src={logo}
-                        height='30'
+                        <img src={logo} className='header-logo'
                         alt="NativeTalk logo"/>
                     </Navbar.Brand>
                 </Container>

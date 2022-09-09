@@ -14,7 +14,7 @@ export default function CheckoutForm(props) {
     const wanted = useSelector(selectWanted)
 
     return(
-        <Form className='w-50 position-absolute end-0'>
+        <Form className='position-absolute end-0 checkout-form'>
             <div className='pt-3 pb-4 card fs-sm'>
                 <div className='card-header bg-white bb-0 pb-0'>
                     <h5 className=' fw-700 text-start'>{props.header}</h5>        
@@ -22,11 +22,14 @@ export default function CheckoutForm(props) {
                 <div className='card-body px-3 pb-4  mx-1' style={{'borderBottom': 'solid 1px #D6D6D6'}}>
                     <div className='d-flex'>
                         <div className='me-auto'>Selected Plan</div>
-                        <div>Starter Plan</div>
+                        <div>
+                            { wanted ? `Standard Plan` : 'Starter Plan' }    
+                        </div>
                     </div>
                     <div className='d-flex my-2'>
                         <div className='me-auto'>No Extensions</div>
-                        <div> { wanted ? `2 (Free) + ${amount}` : '2 (Free)' } </div>
+                        {/* <div> { wanted ? `2 (Free) + ${amount}` : '2 (Free)' } </div> */}
+                        <div> { wanted ? `${amount}` : '2 (Free)' } </div>
                     </div>
                 </div>
                 <div className='card-footer gen-bg-color px-2 mx-4 mt-3 bt-0'>
