@@ -65,8 +65,8 @@ body {
     transition: all .2s !important;
 }
 .green-btn:hover {
-    transform: scale(.97);
-    transition: all .2s ;
+    transform: scale(.99);
+    transition: all .1s ;
 }
 .green-btn:active {
     transform: scale(1);
@@ -121,7 +121,7 @@ body {
     cursor: default;
 }
 .feature-card:hover {
-    transform: scale(1.03);
+    transform: scale(1.02);
     transition: all .3s;
 }
 .feature-card h4{ 
@@ -173,7 +173,7 @@ body {
 .standard-plan:hover {
     transition: all .3s;
     z-index: 2;    
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 .standard-plan-modal:hover {
     transform: scale(1);
@@ -255,7 +255,7 @@ body {
     cursor: pointer;
 }
 .control-btn:hover {
-    transform: scale(.95);
+    transform: scale(.92);
 }    
 .control-btn:active {
     transform: scale(1);
@@ -358,7 +358,7 @@ body {
         width: 60vw;
     }
     .plan-card:hover {
-        transform: scale(1.04);    
+        transform: scale(1.02);    
     }
     .plan-card:nth-child(2) {
         margin-top: 30px;

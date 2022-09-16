@@ -23,7 +23,11 @@ $.ajax({
 
 
 
-
+// emailjs.send('service_2vz2hia', 'template_7gbvt1q', {
+                //     'to_name': window.sessionStorage.getItem('first_name'),
+                //     'to_email': window.sessionStorage.getItem('email'),
+                //     'reply_to': window.sessionStorage.getItem('email'),
+                // }, 'WML2gPuBmqlxtpTrd')
 
 // console.log(res)
                         
@@ -97,3 +101,50 @@ const Email = window.Email
             "company_name": window.sessionStorage.getItem('company_name'),
             "currency_id": window.sessionStorage.getItem('currency_id'),
     })        
+
+// Redirect the user to the otp verification page with their selected number passed as
+                                    // a query string
+                                    // window.location.href = `http://localhost/VerifyOtp?didnumber=${selected_number}`
+                                    // window.location.href = `http://nativetalk.io/VerifyOtp?didnumber=${selected_number}`
+                                    // Set an Item to Keep track of the process. If VerifyOtp
+                    // component doesn't find this item(vtv) in windows.sessionStorage, it redirects the user to the
+                    // landing page
+                    window.sessionStorage.setItem('vtv', 'true')   
+                    
+
+
+                    axios.get(`https://156.0.249.118:444/sendmail/?first_name=${window.sessionStorage.getItem('first_name')}&last_name=${window.sessionStorage.getItem('last_name')}&business_name=${window.sessionStorage.getItem('company_name')}&customer_email=${window.sessionStorage.getItem('email')}&work_address=${window.sessionStorage.getItem('work_address')}&nin_number=${window.sessionStorage.getItem('nin_number')}&did_number=${window.sessionStorage.getItem('number')}&extensions=${sessionStorage.getItem('extensions')}&template=nativetalk_account_creation_verification_support`)
+                    .then(res => { 
+                        axios.get(`https://156.0.249.118:444/sendmail/?to_name=${window.sessionStorage.getItem('first_name')}&to_email=${window.sessionStorage.getItem('email')}&template=nativetalk_account_creation_verification_customer`)    
+                        
+                        .then((res) => {
+                            $('#custom-spinner').addClass('hidden');    
+                            window.sessionStorage.removeItem('_processing')
+                            $('#successregwrapper').removeClass('hidden');
+                            window.scrollTo(0, 0)
+                            $('body').addClass('no-scroll');
+                        })
+                        .catch(err => {
+                            console.log(err)
+                            $('#custom-spinner').addClass('hidden');
+                            $('button').on('click', ()=>{return true});
+                            $('#submit_btn').on('click', () => {('#form').submit()})
+                            alert('Connection error, Please try again')
+                        })
+                        
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        // alert(err)
+                        $('#custom-spinner').addClass('hidden');
+                        $('button').on('click', ()=>{return true});
+                        $('#submit_btn').on('click', () => {('#form').submit()})
+                        alert('Connection error, Please try again')
+                    })
+                    
+                    $('#submit_btn').on('click', () => {('#form').submit()})                    
+
+
+
+                    axios.get(`https://156.0.249.118:444/sendmail/?first_name=${window.sessionStorage.getItem('first_name')}&last_name=${window.sessionStorage.getItem('last_name')}&business_name=${window.sessionStorage.getItem('company_name')}&customer_email=${window.sessionStorage.getItem('email')}&work_address=${window.sessionStorage.getItem('work_address')}&nin_number=${window.sessionStorage.getItem('nin_number')}&did_number=${window.sessionStorage.getItem('number')}&extensions=${sessionStorage.getItem('extensions')}&template=nativetalk_account_creation_verification_support`)         
+                    axios.get(`https://156.0.249.118:444/sendmail/?to_name=${window.sessionStorage.getItem('first_name')}&to_email=${window.sessionStorage.getItem('email')}&template=nativetalk_account_creation_verification_customer`)           

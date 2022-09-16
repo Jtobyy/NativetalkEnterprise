@@ -11,11 +11,12 @@ const initialState = {
 
 export const fetchDids = createAsyncThunk('dids/fetchDids', async () => {
     let response = await axios.post('https://nativetalk-api-proxy.herokuapp.com/api/dids/', {
+    // let response = await axios.post('http://156.0.249.118:82/api/dids/', {  
         "id":"0",
         "token":"",
         "action":"list",
         "limit":"5",
-        "accountid":"0"
+        "accountid":"0" 
       })
     return response
     // .then((res) => {

@@ -47,8 +47,8 @@ export default function ReserveNumber() {
                 <Steps num="2" den='3' />    
             </div>
             <section className="d-flex flex-column gen-bg-color align-items-center pb-200px">
-                <h1 className="fw-700 pt-1 pb-5 position-relative" style={{'top': '70px'}}>Reserve a number</h1>    
-                <p className="mt-4 text-muted">Pick a number from the dropdown below</p>
+                <h1 className="fw-700 pt-1 pb-5 position-relative" style={{'top': '70px'}}>Confirm number</h1>    
+                <p className="mt-4 text-muted">Please confirm the number you picked</p>
                 <Form style={{'width': '40vw'}} className="mb-2 reserve-num-form-wrapper">
                     <Form.Group className="reserve-num-form mt-5 mx-auto">
                         <InputGroup className="mb-1">    

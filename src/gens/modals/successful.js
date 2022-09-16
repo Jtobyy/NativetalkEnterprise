@@ -54,21 +54,29 @@ export function SuccessfulOtpVerificationModal() {
 }
 
 export function SuccessfulRegistrationModal() {
+    const [goHome, setGoHome] = useState(false)
+
+    if (goHome) return <Navigate to='/' />
     return (
         <Modal.Dialog  className='bg-light mx-auto custom-modal br-15px text-center py-5 position-relative' id="successregmodal">
             <Modal.Header>
             <span onClick={() => { 
                         $('#successregmodal').addClass('hidden');
                         $('body').removeClass('no-scroll');
-                        window.location.href = '/'
+                        setGoHome(true)
                         // window.location.href = 'http://127.0.0.1:3000'
                     }} className="position-absolute  end-0 me-4">
             <button  type="button" className="btn-close btn-close " aria-label="Close"></button></span>    
             </Modal.Header>
             <Modal.Body>
-                <img src={successIcon} width="100px" alt=''/>
-                <Modal.Title><h3 className="fw-700 mt-30px">Registration Successful</h3></Modal.Title>
+                <img src={successIcon} width="100px" alt='' className='mt--10px'/>
+                <Modal.Title><h4 className="fw-700 mt-20px">Registration Successful</h4></Modal.Title>
             </Modal.Body>
+            <Modal.Footer>
+                <a href='https://dashboard.nativetalk.com.ng/' className="mx-auto mt-4 text-white  w-50">
+                    <Button className="green-btn btn-success">Go to dashboard</Button>
+                </a>
+            </Modal.Footer>
             {/* <Modal.Footer>
                 <Button className="mx-auto mt-5 text-white green-btn btn-success w-50">Homepage</Button>
             </Modal.Footer> */}

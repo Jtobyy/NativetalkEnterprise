@@ -13,16 +13,87 @@ import ScrollToTopOnMount from "./gens/scrollToTop";
 
 // importing other components
 import React from "react";
-// import SuccessfulModal from "./gens/modals/successful";
-// import FailedModal from "./gens/modals/failed";
 import { Navigate } from "react-router-dom";
 import $ from 'jquery';
 import { connect } from "react-redux";
 import uuid from 'react-uuid';
-// import axios from "axios";
 import { SuccessfulRegistrationModal } from "./gens/modals/successful";
 import { fetchDids } from "./features/didsSlice";
 import emailjs from "@emailjs/browser";
+import axios from "axios";
+
+
+// Takes control of the signup process, calls the signup api, verifies the otp it returns and
+// sends email to both the user and the support group.
+function signupOp() {
+    // axios.post('http://156.0.249.118:82/api/signup/', {    
+    axios.post('https://nativetalk-api-proxy.herokuapp.com/api/signup/', {
+            "number": window.sessionStorage.getItem('telephone'),
+            "reseller_id": window.sessionStorage.getItem('reseller_id'),
+            "telephone": window.sessionStorage.getItem('telephone'),
+            "password": window.sessionStorage.getItem('password'),
+            "email": window.sessionStorage.getItem('email'),
+            "first_name": window.sessionStorage.getItem('first_name'),
+            "last_name": window.sessionStorage.getItem('last_name'),
+            "country_id": window.sessionStorage.getItem('country_id'),
+            "company_name": window.sessionStorage.getItem('company_name'),
+            "currency_id": window.sessionStorage.getItem('currency_id'),
+        }).then((res) => {
+            // axios.post('http://156.0.249.118:82/api/signup/verify_otp/', {
+            axios.post('https://nativetalk-api-proxy.herokuapp.com/api/signup/verify_otp/', {
+                "number": res.data.data.number,
+                "otp": res.data.data.otp,
+                "last_id" : res.data.data.last_id,
+            }).then((res) => {
+                emailjs.send('service_2vz2hia', 'template_kqbi5sk', {
+                    'first_name': window.sessionStorage.getItem('first_name'),
+                    'last_name': window.sessionStorage.getItem('last_name'),
+                    'business_name': window.sessionStorage.getItem('company_name'),
+                    'customer_email': window.sessionStorage.getItem('email'),
+                    'work_address': window.sessionStorage.getItem('work_address'),
+                    'nin_number': window.sessionStorage.getItem('nin_number'),
+                    'did_number': window.sessionStorage.getItem('number'),
+                    'extensions': window.sessionStorage.getItem('extensions'),
+                }, 'WML2gPuBmqlxtpTrd')
+                .then(res => {
+                    emailjs.send('service_2vz2hia', 'template_7gbvt1q', {
+                        'to_name': window.sessionStorage.getItem('first_name'),
+                        'to_email': window.sessionStorage.getItem('email'),
+                        'reply_to': window.sessionStorage.getItem('email'),
+                    }, 'WML2gPuBmqlxtpTrd')    
+                    .then(res => {
+                        // Keep track of process, if confirmOrder component(current component) doesn't find this
+                        // item(_processing), it redirects users to pick a number
+                        window.sessionStorage.removeItem('_processing')
+                        
+                        $('#custom-spinner').addClass('hidden');    
+                        window.sessionStorage.removeItem('_processing')
+                        $('#successregwrapper').removeClass('hidden');
+                        window.scrollTo(0, 0)
+                        $('body').addClass('no-scroll');
+                    })
+                    .catch(err => {
+                        console.log(`error sending email to customer ${err.response}`)
+                        $('#custom-spinner').addClass('hidden');
+                        $('button').on('click', ()=>{return true});
+                        alert('Connection error, Please try again')
+                    })
+                })
+                .catch(err => {
+                    console.log(`error sending email to support ${err.response}`)
+                    $('#custom-spinner').addClass('hidden');
+                    $('button').on('click', ()=>{return true});
+                    alert('Connection error, Please try again')
+                })
+            }).catch((err) => console.log(`error verifying otp ${err}`))
+        }).catch((err) => {
+            console.log(`error signing up, ${err}`)
+            alert('Your email address or phone number is already in use.')
+            console.error(err)
+            $('#custom-spinner').addClass('hidden');
+            $('button').on('click', ()=>{return true});
+            })
+}
 
 
 class ConfirmOrder extends React.Component {
@@ -31,6 +102,7 @@ class ConfirmOrder extends React.Component {
         this.state = {
             customer_first_name: '',
             customer_last_name: '',
+            telephone: '',
             business_name: '',
             email: '',
             work_address: '',
@@ -58,9 +130,11 @@ class ConfirmOrder extends React.Component {
         else
             selected_number = window.sessionStorage.getItem('number')
 
+        $('#submit_btn').off()
+
         window.sessionStorage.setItem('number', selected_number)
         window.sessionStorage.setItem('reseller_id', uuid())
-        window.sessionStorage.setItem('telephone', selected_number)
+        window.sessionStorage.setItem('telephone', this.state.telephone)
         window.sessionStorage.setItem('password', this.state.password)
         window.sessionStorage.setItem('email', this.state.email)
         window.sessionStorage.setItem('first_name', this.state.customer_first_name)
@@ -70,6 +144,8 @@ class ConfirmOrder extends React.Component {
         window.sessionStorage.setItem('nin_number', this.state.NIN)
         window.sessionStorage.setItem('work_address', this.state.work_address)
         window.sessionStorage.setItem('currency_id', '96')
+        if (this.props.wanted) window.sessionStorage.setItem('extensions', this.props.amount)
+        else window.sessionStorage.setItem('extensions', '2(free)')
 
         // Check if extra extensions were ordered. if so, ask for payment.
         if (this.props.wanted) {
@@ -85,107 +161,23 @@ class ConfirmOrder extends React.Component {
                     alert('Payment cancelled')
                 },
                 callback: function(response){
-                    $('#custom-spinner').removeClass('hidden');    
-                    emailjs.send('service_2vz2hia', 'template_kqbi5sk', {
-                        'first_name': window.sessionStorage.getItem('first_name'),
-                        'last_name': window.sessionStorage.getItem('last_name'),
-                        'to_email': window.sessionStorage.getItem('email'),
-                        'business_name': window.sessionStorage.getItem('company_name'),
-                        'customer_email': window.sessionStorage.getItem('email'),
-                        'work_address': window.sessionStorage.getItem('work_address'),
-                        'nin_number': window.sessionStorage.getItem('nin_number'),
-                        'did_number': window.sessionStorage.getItem('number'),
-                    }, 'WML2gPuBmqlxtpTrd')
-                    .then(res => {
-                        // Set an Item to Keep track of the process. If VerifyOtp
-                        // component doesn't find this item(vtv) in windows.sessionStorage, it redirects the user to the
-                        // landing page
-                        window.sessionStorage.setItem('vtv', 'true')   
-
-                        emailjs.send('service_2vz2hia', 'template_7gbvt1q', {
-                                'to_name': window.sessionStorage.getItem('first_name'),
-                                'to_email': window.sessionStorage.getItem('email'),
-                                'reply_to': window.sessionStorage.getItem('email'),
-                            }, 'WML2gPuBmqlxtpTrd')
-                        .then(res => {
-                            // console.log(res)
-                            // Keep track of process, if confirmOrder component(current component) doesn't find this
-                            // item(_processing), it redirects users to pick a number
-                            // alert('Email sent')
-                            window.sessionStorage.removeItem('_processing')
-
-                            // Redirect the user to the otp verification page with their selected number passed as
-                            // a query string
-                            // window.location.href = `http://localhost/VerifyOtp?didnumber=${selected_number}`
-                            // window.location.href = `http://nativetalk.io/VerifyOtp?didnumber=${selected_number}`
-                            $('#custom-spinner').addClass('hidden');    
-                            window.sessionStorage.removeItem('_processing')
-                            $('#successregwrapper').removeClass('hidden');
-                            window.scrollTo(0, 0)
-                            $('body').addClass('no-scroll');
-                        })
-                        .catch(err => {
-                            console.log(err.response)
-                        })
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
+                    $('#custom-spinner').removeClass('hidden');
+                    
+                    signupOp();
                 }});
             handler.openIframe();
         }
         else {
-            // Set an Item to Keep track of the process. If VerifyOtp
-            // component doesn't find this item(vtv) in windows.sessionStorage, it redirects the user to the
-            // landing page
             $('#custom-spinner').removeClass('hidden');
-            window.sessionStorage.setItem('vtv', 'true')
-
-            emailjs.send('service_2vz2hia', 'template_kqbi5sk', {
-                'first_name': window.sessionStorage.getItem('first_name'),
-                'last_name':  window.sessionStorage.getItem('last_name'),
-                'to_email': window.sessionStorage.getItem('email'),
-                'business_name': window.sessionStorage.getItem('company_name'),
-                'customer_email': window.sessionStorage.getItem('email'),
-                'work_address': window.sessionStorage.getItem('work_address'),
-                'nin_number': window.sessionStorage.getItem('nin_number'),
-                'did_number': window.sessionStorage.getItem('number'),
-                // 'did_number': '248249128',
-            }, 'WML2gPuBmqlxtpTrd')
-            .then(res => {
-                emailjs.send('service_2vz2hia', 'template_7gbvt1q', {
-                    'to_name': window.sessionStorage.getItem('first_name'),
-                    'to_email': window.sessionStorage.getItem('email'),
-                    'reply_to': window.sessionStorage.getItem('email'),
-                }, 'WML2gPuBmqlxtpTrd')
-                .then((res) => {
-                    $('#custom-spinner').addClass('hidden');    
-                    window.sessionStorage.removeItem('_processing')
-                    $('#successregwrapper').removeClass('hidden');
-                    window.scrollTo(0, 0)
-                    $('body').addClass('no-scroll');
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-                // alert('Email sent')
-                // Redirect the user to the otp verification page with their selected number passed as
-                // a query string (not necessary since the number is currently in sessionStorage, but
-                // just incase)
-                // window.location.href = `http://localhost:3000/VerifyOtp?didnumber=${selected_number}`
-                // window.location.href = `http://nativetalk.io/VerifyOtp?didnumber=${selected_number}`
-            })
-            .catch(err => {
-                console.log(err)
-            })
+            
+            signupOp();
         }
     }
 
+
     render() {
-        // if (this.state.modal === 'success')
-        //     return <Navigate to='/PaymentSuccess'/>
         if (!window.sessionStorage.getItem('_processing'))
-            return <Navigate to='/ReserveNumber'/>
+            return <Navigate to='/SelectPlan'/>
         
         return (
                 <div className="text-center pt-5 position-relative">
@@ -198,7 +190,7 @@ class ConfirmOrder extends React.Component {
                         <Container className="px-5 py-1">
                             <Row>
                                 <Col lg={6}>
-                                    <form className="mt-5 text-start fs-sm" 
+                                    <form className="mt-5 text-start fs-sm" id="form"
                                     onSubmit={(e) => {e.preventDefault(); this.handleSubmit(e)}}>
                                         <Form.Group className="mb-3">
                                             <Form.Label>First name</Form.Label>
@@ -221,13 +213,18 @@ class ConfirmOrder extends React.Component {
                                             className="fs-sm py-2" onChange={(e) => this.setState({email: e.target.value})} required/>    
                                         </Form.Group>
                                         <Form.Group className="mb-3">
+                                            <Form.Label>Phone number</Form.Label>
+                                            <Form.Control type="number" placeholder="09038210108"
+                                            className="fs-sm py-2" onChange={(e) => this.setState({telephone: e.target.value})} required/>
+                                        </Form.Group>
+                                        <Form.Group className="mb-3">
                                             <Form.Label>Work Address</Form.Label>
                                             <Form.Control type="text" placeholder="42 Tech Street, Lekki" 
                                             className="fs-sm py-2" onChange={(e) => this.setState({work_address: e.target.value})} required/>
                                         </Form.Group>
                                         <Form.Group className="mb-3">
                                             <Form.Label>NIN Number</Form.Label>
-                                            <Form.Control type="number" placeholder="234568798987654" className="fs-sm py-2" 
+                                            <input type="text" pattern="[0-9]{11}" placeholder="23456879898"  className="form-control fs-sm py-2" 
                                             onChange={(e) => this.setState({NIN: e.target.value})} required/>
                                         </Form.Group>
                                         <Form.Group className="mb-3">
@@ -260,7 +257,7 @@ class ConfirmOrder extends React.Component {
                                                     </Form.Group>
                                                 )
                                             })()}
-                                        <Button type='submit' className='green-btn btn-success mt-5 w-100'>Continue</Button>
+                                        <Button type='submit' id='submit_btn' className='green-btn btn-success mt-5 w-100'>Continue</Button>
                                     </form>
                                 </Col>
                                 <Col className="z-5 position-relative p-5 mt-3" lg={6}>
@@ -272,9 +269,9 @@ class ConfirmOrder extends React.Component {
                     <div className="position-absolute w-100 t-7vh hidden" id="successregwrapper">
                         <SuccessfulRegistrationModal />
                     </div>
-                    <div class="spinner-border position-fixed custom-spinner hidden text-success" role="status"
+                    <div className="spinner-border position-fixed custom-spinner hidden text-success" role="status"
                     id='custom-spinner'>
-                        <span class="sr-only"></span>
+                        <span className="sr-only"></span>
                     </div>
                 </div>
         )
