@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>test</title>
+    </head>
+    <body>
+        <form  action="{% url 'sendmail' %}" method="get">
+            {% csrf_token %}    
+            <input type="text" name="to_name" placeholder="name">
+            <input type="text" name="to_email" placeholder="email">
+            <input type="text" name="template" placeholder="template" value="nativetalk_user_verification">
+            <button type="submit">submit</button>
+        </form>
+    </body>
+</html>
