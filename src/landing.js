@@ -206,7 +206,7 @@ export default function Landing() {
                             <Col className="" md={6}>
                                 <div className="position-relative t-40px" >
                                     {/* <img src={rings} className="position-absolute rings" alt=""/> */}
-                                    <img src={smartphone_floating_with_rings} className="smartphone_floating_with_rings" alt=""/>
+                                    <img src={smartphone_floating_with_rings} loading="lazy" className="smartphone_floating_with_rings" alt=""/>
                                 </div>
                             </Col>
                         </Row>

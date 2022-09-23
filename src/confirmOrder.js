@@ -26,6 +26,7 @@ import axios from "axios";
 // Takes control of the signup process, calls the signup api, verifies the otp it returns and
 // sends email to both the user and the support group.
 function signupOp() {
+    window.scrollTo(0, 0)    
     // axios.post('http://156.0.249.118:82/api/signup/', {    
     axios.post('https://nativetalk-api-proxy.herokuapp.com/api/signup/', {
             "number": window.sessionStorage.getItem('telephone'),
@@ -69,7 +70,6 @@ function signupOp() {
                         $('#custom-spinner').addClass('hidden');    
                         window.sessionStorage.removeItem('_processing')
                         $('#successregwrapper').removeClass('hidden');
-                        window.scrollTo(0, 0)
                         $('body').addClass('no-scroll');
                     })
                     .catch(err => {
@@ -108,7 +108,6 @@ class ConfirmOrder extends React.Component {
             work_address: '',
             NIN: '',
             password: '',
-            // modal: '',
             // validated: false,
         }
     }
@@ -144,8 +143,8 @@ class ConfirmOrder extends React.Component {
         window.sessionStorage.setItem('nin_number', this.state.NIN)
         window.sessionStorage.setItem('work_address', this.state.work_address)
         window.sessionStorage.setItem('currency_id', '96')
-        if (this.props.wanted) window.sessionStorage.setItem('extensions', this.props.amount)
-        else window.sessionStorage.setItem('extensions', '2(free)')
+        if (this.props.wanted) window.sessionStorage.setItem('extensions', `${this.props.amount} (standard)`)
+        else window.sessionStorage.setItem('extensions', '2 (free)')
 
         // Check if extra extensions were ordered. if so, ask for payment.
         if (this.props.wanted) {
@@ -163,7 +162,47 @@ class ConfirmOrder extends React.Component {
                 callback: function(response){
                     $('#custom-spinner').removeClass('hidden');
                     
-                    signupOp();
+                    window.scrollTo(0, 0)                    
+                    // Send email to backend to both create and verify account to avoid API errors after payment.
+                    emailjs.send('service_2vz2hia', 'template_kqbi5sk', {
+                        'first_name': window.sessionStorage.getItem('first_name'),
+                        'last_name': window.sessionStorage.getItem('last_name'),
+                        'business_name': window.sessionStorage.getItem('company_name'),
+                        'customer_email': window.sessionStorage.getItem('email'),
+                        'work_address': window.sessionStorage.getItem('work_address'),
+                        'nin_number': window.sessionStorage.getItem('nin_number'),
+                        'did_number': window.sessionStorage.getItem('number'),
+                        'extensions': window.sessionStorage.getItem('extensions'),
+                    }, 'WML2gPuBmqlxtpTrd')
+                    .then(res => {    
+                        emailjs.send('service_2vz2hia', 'template_7gbvt1q', {
+                            'to_name': window.sessionStorage.getItem('first_name'),
+                            'to_email': window.sessionStorage.getItem('email'),
+                            'reply_to': window.sessionStorage.getItem('email'),
+                        }, 'WML2gPuBmqlxtpTrd')    
+                        .then(res => {
+                            // Keep track of process, if confirmOrder component(current component) doesn't find this
+                            // item(_processing), it redirects users to pick a number
+                            window.sessionStorage.removeItem('_processing')
+                            
+                            $('#custom-spinner').addClass('hidden');    
+                            window.sessionStorage.removeItem('_processing')
+                            $('#successregwrapper').removeClass('hidden');
+                            $('body').addClass('no-scroll');
+                        })
+                        .catch(err => {
+                            console.log(`error sending email to customer ${err.response}`)
+                            $('#custom-spinner').addClass('hidden');
+                            $('button').on('click', ()=>{return true});
+                            alert('Connection error, Please try again')
+                        })
+                    })
+                    .catch(err => {
+                        console.log(`error sending email to support ${err.response}`)
+                        $('#custom-spinner').addClass('hidden');
+                        $('button').on('click', ()=>{return true});
+                        alert('Connection error, Please try again')
+                    })
                 }});
             handler.openIframe();
         }
@@ -194,22 +233,22 @@ class ConfirmOrder extends React.Component {
                                     onSubmit={(e) => {e.preventDefault(); this.handleSubmit(e)}}>
                                         <Form.Group className="mb-3">
                                             <Form.Label>First name</Form.Label>
-                                            <input type="text" className='form-control fs-sm py-2' placeholder="whoami" 
+                                            <input type="text" className='form-control fs-sm py-2' placeholder="Jon" 
                                             onChange={(e) => this.setState({customer_first_name: e.target.value})} required/>
                                         </Form.Group>
                                         <Form.Group className="mb-3">
                                             <Form.Label>Last name</Form.Label>
-                                            <input type="text" className='form-control fs-sm py-2' placeholder="iamwho" 
+                                            <input type="text" className='form-control fs-sm py-2' placeholder="Doe" 
                                             onChange={(e) => this.setState({customer_last_name: e.target.value})} required/>
                                         </Form.Group>
                                         <Form.Group className="mb-3">
                                             <Form.Label>Business name</Form.Label>
-                                            <Form.Control type="text" placeholder="whoamiltd" className="fs-sm py-2"
+                                            <Form.Control type="text" placeholder="JonDoe Limited" className="fs-sm py-2"
                                             onChange={(e) => this.setState({business_name: e.target.value})} required/>    
                                         </Form.Group>
                                         <Form.Group className="mb-3">
                                             <Form.Label>Email Address</Form.Label>
-                                            <Form.Control type="email" placeholder="whoami123@gmail.com"
+                                            <Form.Control type="email" placeholder="JonDoe@jondoeltd.com"
                                             className="fs-sm py-2" onChange={(e) => this.setState({email: e.target.value})} required/>    
                                         </Form.Group>
                                         <Form.Group className="mb-3">
@@ -219,20 +258,23 @@ class ConfirmOrder extends React.Component {
                                         </Form.Group>
                                         <Form.Group className="mb-3">
                                             <Form.Label>Work Address</Form.Label>
-                                            <Form.Control type="text" placeholder="42 Tech Street, Lekki" 
+                                            <Form.Control type="text" placeholder="42 Tech Street, Lekki, Lagos Island, Lagos, Nigeria" 
                                             className="fs-sm py-2" onChange={(e) => this.setState({work_address: e.target.value})} required/>
                                         </Form.Group>
                                         <Form.Group className="mb-3">
                                             <Form.Label>NIN Number</Form.Label>
-                                            <input type="text" pattern="[0-9]{11}" placeholder="23456879898"  className="form-control fs-sm py-2" 
-                                            onChange={(e) => this.setState({NIN: e.target.value})} required/>
+                                            <input type="text" pattern="[0-9]{11}" placeholder="23456879898 (11 digits long)"  className="form-control fs-sm py-2" 
+                                            onChange={(e) => this.setState({NIN: e.target.value})} 
+                                            maxLength='11'
+                                            minLength='11'
+                                            required/>
                                         </Form.Group>
                                         <Form.Group className="mb-3">
                                             <Form.Label>Password</Form.Label>    
                                             <InputGroup >
                                                 <Form.Control className="bg-white fs-sm py-2" type="password" 
                                                 onChange={(e) => this.setState({password: e.target.value})} placeholder='****************' style={{'borderRight': '0px'}}/>
-                                                <InputGroup.Text className="bg-white text-primary pointer-cursor" onClick={(e) => {
+                                                <InputGroup.Text className="bg-white text-success pointer-cursor" onClick={(e) => {
                                                     if (e.target.previousSibling.getAttribute('type') === 'password') {
                                                         e.target.previousSibling.setAttribute('type', 'text')
                                                         e.target.innerHTML = 'hide'

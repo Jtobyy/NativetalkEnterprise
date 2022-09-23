@@ -71,6 +71,10 @@ export function SuccessfulRegistrationModal() {
             <Modal.Body>
                 <img src={successIcon} width="100px" alt='' className='mt--10px'/>
                 <Modal.Title><h4 className="fw-700 mt-20px">Registration Successful</h4></Modal.Title>
+                <p className='small px-3'>
+                    Thank you for registering with NativeTalk, a member of the team is verifying your account right now.
+                    Once your account has been validated, you will receive an email within 48 hours.
+                </p>
             </Modal.Body>
             <Modal.Footer>
                 <a href='https://dashboard.nativetalk.com.ng/' className="mx-auto mt-4 text-white  w-50">
