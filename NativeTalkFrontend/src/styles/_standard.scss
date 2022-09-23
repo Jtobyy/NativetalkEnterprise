@@ -1,0 +1,44 @@
+$gen-color:  #3EBF0F;
+
+h1 {
+    line-height: 55px !important;
+}
+.header-logo {
+    height: 30px;
+}
+.green-btn {
+    background-color: $gen-color !important;
+    border: 0px;
+    transition: all .2s !important;
+}
+.green-btn:hover {
+    transform: scale(.97);
+    transition: all .2s ;
+}
+.green-btn:active {
+    transform: scale(1);
+}
+
+@media screen and (max-width: 768px) {
+    h1 {
+        line-height: normal !important;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    h1 {
+        line-height: 40px !important;
+    }
+    p {
+        line-height: 30px !important;
+    }    
+    .header-logo {
+        position: relative;
+        left: -40px;
+    }
+    .green-btn{
+        font-size: .8rem;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+}
