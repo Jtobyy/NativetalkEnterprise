@@ -20,14 +20,14 @@ Endpoint: `https://apps.nativetalk.com.ng:444/sendmail/`
    - `to_name`: The customer's full name
 
 2.
-  - `first_name`: The customer's first name
-  - `last_name`: The customer's lst name
-  - `business_name`: The customer's company or business name
-  - `customer_email`: Also the customer's email address
-  - `work_address`: The customer's work address
-  - `nin_number`: The customer's nin number
-  - `did_number`: The customer's did number
-  - `extensions`: The amount of extensions the customer picked
+   - `first_name`: The customer's first name
+   - `last_name`: The customer's lst name
+   - `business_name`: The customer's company or business name
+   - `customer_email`: Also the customer's email address
+   - `work_address`: The customer's work address
+   - `nin_number`: The customer's nin number
+   - `did_number`: The customer's did number
+   - `extensions`: The amount of extensions the customer picked
 
   More templates can be added if need be.
 
