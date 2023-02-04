@@ -5,7 +5,37 @@ The website majorly consumed resources through ASTPP's APIs.
 The website itself has a backend which doesn't do much. It majorly initiates email sending from servers to servers; mostly from
 Nativetalk's email host mail.nativetlak.io (using username info@nativetalk.io) to customers email hosts using their email addresses.
 
-## NativetalkEmailBackend
+## NativetalkBackend (Current)
+This API service was built with Flask, a lightweight Python Framework
+
+Endpoint: `https://apps.nativetalk.com.ng:447/flsk/`
+
+### The follwing fields are compulsory
+1) `to_email`: The email recipient
+2) `email_template`: The email template to use
+
+### The `email_template` field determines the specifics of the email.
+Currently, there are just two templates
+1) `new_signup_info`
+2) `user_verification_email`
+
+### Other fields are given below
+If the template is (1)
+- `first_name`
+- `last_name`
+- `business_name`
+- `customer_email`
+- `work_address`
+- `nin_number`
+- `extensions`
+- `did_number`
+
+if (2)
+- `to_name`
+
+
+## NativetalkEmailBackend (Old)
+This API service was built with django.
 As of writing, the only API provided by the backend initiates this email sending. It receives a `GET` request with the
 following query strings.
 
@@ -32,9 +62,8 @@ Endpoint: `https://apps.nativetalk.com.ng:444/sendmail/`
   More templates can be added if need be.
 
 
-## Working locally
-### Getting Started with Create React App and Redux
 
+## NativetalkFrontend
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
 ### Available Scripts
