@@ -35,6 +35,12 @@ Once your account has been validated, you will receive an email within 48 hours.
 Thank you
 NativeTalk Team
         """
+    ),
+
+    "new_cyberfix_order": Template(
+        """
+        
+        """
     )
 }
 
@@ -88,6 +94,12 @@ def send_email():
 
             part1 = MIMEText(text, "plain")
             message.attach(part1)
+
+            
+        # Cybervilla
+        if email_template == "new_cyberfix_order":
+            messsage["Subject"] = ""
+            # helloxs
             
     except KeyError as e:
         return jsonify({'error': {'message': "required field missing " + str(e)}}), 400
